@@ -44,6 +44,8 @@ The next step was to develop an application that polls the API of data sources i
 
 etc.
 
+## Contribute
+I welcome any contribution to the development of my repositories! Read our [Contribution Guide](CONTRIBUTING.md ) to get started.
 
 
 <details>
