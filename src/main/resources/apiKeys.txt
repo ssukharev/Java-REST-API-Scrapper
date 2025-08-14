@@ -1,0 +1,3 @@
+currentsapi.key=ADD_YOUR_APIKEY
+newsapi.key=ADD_YOUR_APIKEY
+openweathermap.key=ADD_YOUR_APIKEY

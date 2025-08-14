@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoggerConfigurator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">REST API Scrapper</a> &gt; <a href="index.source.html" class="el_package">com.example.scrapper.util</a> &gt; <span class="el_source">LoggerConfigurator.java</span></div><h1>LoggerConfigurator.java</h1><pre class="source lang-java linenums">package com.example.scrapper.util;
+
+import java.io.File;
+
+/**
+ * Класс для программной настройки SLF4J Simple Logger.
+ * Вызывайте метод configure() как можно раньше (например, в статическом блоке Main),
+ * чтобы системные свойства установились до создания логгеров.
+ */
+<span class="nc" id="L10">public class LoggerConfigurator {</span>
+    public static void configure() {
+        // Создаем директорию для логов
+<span class="fc" id="L13">        File logDir = new File(&quot;src/main/resources/logs&quot;);</span>
+<span class="pc bpc" id="L14" title="1 of 2 branches missed.">        if (!logDir.exists()) {</span>
+<span class="nc" id="L15">            logDir.mkdirs();</span>
+        }
+
+<span class="fc" id="L18">        System.setProperty(&quot;org.slf4j.simpleLogger.defaultLogLevel&quot;, &quot;info&quot;);</span>
+<span class="fc" id="L19">        System.setProperty(&quot;org.slf4j.simpleLogger.logFile&quot;, &quot;src/main/resources/logs/app.log&quot;);</span>
+<span class="fc" id="L20">        System.setProperty(&quot;org.slf4j.simpleLogger.showDateTime&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L21">        System.setProperty(&quot;org.slf4j.simpleLogger.dateTimeFormat&quot;, &quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc" id="L22">        System.setProperty(&quot;org.slf4j.simpleLogger.showThreadName&quot;, &quot;false&quot;);</span>
+<span class="fc" id="L23">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

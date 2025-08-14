@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApiClient.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">REST API Scrapper</a> &gt; <a href="index.source.html" class="el_package">com.example.scrapper.client</a> &gt; <span class="el_source">ApiClient.java</span></div><h1>ApiClient.java</h1><pre class="source lang-java linenums">package com.example.scrapper.client;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
+
+<span class="fc" id="L17">public class ApiClient {</span>
+<span class="fc" id="L18">    private static final Logger logger = LoggerFactory.getLogger(ApiClient.class);</span>
+
+    // URL шаблоны без API ключей
+    private static final String CURRENTS_API_URL_TEMPLATE = &quot;https://api.currentsapi.services/v1/latest-news?apiKey=%s&amp;page_size=1&quot;;
+    private static final String NEWS_API_URL_TEMPLATE = &quot;https://newsapi.org/v2/everything?q=technology&amp;apiKey=%s&amp;pageSize=1&quot;;
+    private static final String WEATHER_API_URL_TEMPLATE = &quot;https://api.openweathermap.org/data/2.5/weather?q=London&amp;appid=%s&quot;;
+
+
+<span class="fc" id="L26">    private static final Map&lt;String, String&gt; apiKeys = new HashMap&lt;&gt;();</span>
+
+    // Загрузка ключей API при инициализации класса
+    static {
+<span class="fc" id="L30">        try (BufferedReader reader = new BufferedReader(new FileReader(&quot;src/main/resources/apiKeys.txt&quot;))) {</span>
+            String line;
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            while ((line = reader.readLine()) != null) {</span>
+<span class="fc" id="L33">                String[] parts = line.split(&quot;=&quot;, 2);</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">                if (parts.length == 2) {</span>
+<span class="fc" id="L35">                    apiKeys.put(parts[0], parts[1]);</span>
+                }
+<span class="fc" id="L37">            }</span>
+<span class="nc" id="L38">        } catch (IOException e) {</span>
+<span class="nc" id="L39">            logger.error(&quot;Ошибка при загрузке API ключей&quot;, e);</span>
+<span class="fc" id="L40">        }</span>
+<span class="fc" id="L41">    }</span>
+
+    public String fetchData(String apiType) throws IOException, InterruptedException {
+<span class="fc" id="L44">        String apiUrl = getApiUrl(apiType);</span>
+<span class="fc" id="L45">        HttpClient client = HttpClient.newHttpClient();</span>
+<span class="fc" id="L46">        HttpRequest request = HttpRequest.newBuilder()</span>
+<span class="fc" id="L47">                .uri(URI.create(apiUrl))</span>
+<span class="fc" id="L48">                .timeout(Duration.ofSeconds(10))</span>
+<span class="fc" id="L49">                .GET()</span>
+<span class="fc" id="L50">                .build();</span>
+<span class="fc" id="L51">        logger.debug(&quot;Fetching data from {}&quot;, apiType);</span>
+<span class="fc" id="L52">        HttpResponse&lt;String&gt; response = client.send(request, HttpResponse.BodyHandlers.ofString());</span>
+<span class="fc" id="L53">        return response.body();</span>
+    }
+
+    private String getApiUrl(String apiType) {
+        String key;
+<span class="fc bfc" id="L58" title="All 4 branches covered.">        return switch (apiType.toLowerCase()) {</span>
+            case &quot;currentsapi&quot; -&gt; {
+<span class="fc" id="L60">                key = apiKeys.get(&quot;currentsapi.key&quot;);</span>
+<span class="fc" id="L61">                yield String.format(CURRENTS_API_URL_TEMPLATE, key);</span>
+            }
+            case &quot;newsapi&quot; -&gt; {
+<span class="fc" id="L64">                key = apiKeys.get(&quot;newsapi.key&quot;);</span>
+<span class="fc" id="L65">                yield String.format(NEWS_API_URL_TEMPLATE, key);</span>
+            }
+            case &quot;openweathermap&quot; -&gt; {
+<span class="fc" id="L68">                key = apiKeys.get(&quot;openweathermap.key&quot;);</span>
+<span class="fc" id="L69">                yield String.format(WEATHER_API_URL_TEMPLATE, key);</span>
+            }
+<span class="fc" id="L71">            default -&gt; throw new IllegalArgumentException(&quot;Неизвестный тип API: &quot; + apiType);</span>
+        };
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileWriterUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">REST API Scrapper</a> &gt; <a href="index.source.html" class="el_package">com.example.scrapper.util</a> &gt; <span class="el_source">FileWriterUtil.java</span></div><h1>FileWriterUtil.java</h1><pre class="source lang-java linenums">package com.example.scrapper.util;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Утилита для записи данных в CSV или JSON.
+ * При CSV-формате данные для каждого API накапливаются отдельно и при закрытии файла
+ * записываются как отдельные таблицы с заголовками и пустой строкой между ними.
+ */
+public class FileWriterUtil {
+<span class="fc" id="L23">    private static final Logger logger = LoggerFactory.getLogger(FileWriterUtil.class);</span>
+
+    private final String fileName;
+    private final String fileFormat;
+    private final ObjectMapper objectMapper;
+    // Для JSON — список, куда сохраняются все записи
+    private final List&lt;Scrapped&gt; records;
+
+    // Для CSV: отдельные списки строк для каждого API
+<span class="fc" id="L32">    private final List&lt;String&gt; newsApiRows = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L33">    private final List&lt;String&gt; currentsApiRows = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L34">    private final List&lt;String&gt; openWeatherMapRows = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L36">    public FileWriterUtil(String fileName, String fileFormat) {</span>
+<span class="fc" id="L37">        this.fileName = fileName;</span>
+<span class="fc" id="L38">        this.fileFormat = fileFormat;</span>
+<span class="fc" id="L39">        this.objectMapper = new ObjectMapper();</span>
+<span class="fc" id="L40">        this.records = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (&quot;CSV&quot;.equalsIgnoreCase(fileFormat)) {</span>
+<span class="fc" id="L43">            File file = new File(fileName);</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            if (file.exists()) {</span>
+<span class="fc" id="L45">                file.delete();</span>
+            }
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        } else if (&quot;JSON&quot;.equalsIgnoreCase(fileFormat)) {</span>
+<span class="fc" id="L48">            File file = new File(fileName);</span>
+<span class="pc bpc" id="L49" title="3 of 4 branches missed.">            if (file.exists() &amp;&amp; file.length() &gt; 0) {</span>
+                try {
+<span class="nc" id="L51">                    List&lt;Scrapped&gt; existingRecords = objectMapper.readValue(file, new TypeReference&lt;&gt;() {});</span>
+<span class="nc" id="L52">                    records.addAll(existingRecords);</span>
+<span class="nc" id="L53">                } catch (IOException e) {</span>
+<span class="nc" id="L54">                    logger.error(&quot;Не удалось прочитать существующий JSON-файл. Будет создан новый.&quot;, e);</span>
+<span class="nc" id="L55">                }</span>
+            }
+        }
+<span class="fc" id="L58">    }</span>
+
+    /**
+     * Метод вызывается из задач для записи данных.
+     * Для CSV данные накапливаются, для JSON – сразу добавляются в список.
+     */
+    public synchronized void writeData(String source, String data) {
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (&quot;CSV&quot;.equalsIgnoreCase(fileFormat)) {</span>
+<span class="fc" id="L66">            processCsvData(source, data);</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        } else if (&quot;JSON&quot;.equalsIgnoreCase(fileFormat)) {</span>
+<span class="fc" id="L68">            addJsonRecord(source, data);</span>
+        }
+<span class="fc" id="L70">    }</span>
+
+    private void processCsvData(String source, String data) {
+        try {
+<span class="fc bfc" id="L74" title="All 4 branches covered.">            switch (source.toLowerCase()) {</span>
+                case &quot;newsapi&quot;:
+<span class="fc" id="L76">                    newsApiRows.addAll(processNewsApiData(data));</span>
+<span class="fc" id="L77">                    break;</span>
+                case &quot;currentsapi&quot;:
+<span class="fc" id="L79">                    currentsApiRows.addAll(processCurrentsApiData(data));</span>
+<span class="fc" id="L80">                    break;</span>
+                case &quot;openweathermap&quot;:
+<span class="fc" id="L82">                    openWeatherMapRows.addAll(processOpenWeatherMapData(data));</span>
+<span class="fc" id="L83">                    break;</span>
+                default:
+<span class="fc" id="L85">                    logger.warn(&quot;Неизвестный источник для CSV: {}&quot;, source);</span>
+                    break;
+            }
+<span class="nc" id="L88">        } catch (IOException e) {</span>
+<span class="nc" id="L89">            logger.error(&quot;Ошибка обработки CSV данных для источника &quot; + source, e);</span>
+<span class="fc" id="L90">        }</span>
+<span class="fc" id="L91">    }</span>
+
+    private List&lt;String&gt; processNewsApiData(String data) throws IOException {
+<span class="fc" id="L94">        List&lt;String&gt; rows = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L95">        JsonNode root = objectMapper.readTree(data);</span>
+<span class="fc" id="L96">        String status = root.path(&quot;status&quot;).asText(&quot;&quot;);</span>
+<span class="fc" id="L97">        String totalResults = root.path(&quot;totalResults&quot;).asText(&quot;&quot;);</span>
+<span class="fc" id="L98">        JsonNode articles = root.path(&quot;articles&quot;);</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if (articles.isArray()) {</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">            for (JsonNode article : articles) {</span>
+<span class="fc" id="L101">                String title = article.path(&quot;title&quot;).asText(&quot;&quot;);</span>
+<span class="fc" id="L102">                String author = article.path(&quot;author&quot;).asText(&quot;&quot;);</span>
+<span class="fc" id="L103">                String description = article.path(&quot;description&quot;).asText(&quot;&quot;);</span>
+<span class="fc" id="L104">                rows.add(String.format(&quot;NewsApi,%s,%s,%s,%s,%s&quot;,</span>
+                        status,
+                        totalResults,
+<span class="fc" id="L107">                        escapeCsv(title),</span>
+<span class="fc" id="L108">                        escapeCsv(author),</span>
+<span class="fc" id="L109">                        escapeCsv(description)));</span>
+<span class="fc" id="L110">            }</span>
+        } else {
+<span class="nc" id="L112">            rows.add(String.format(&quot;NewsApi,%s,%s,,,,&quot;, status, totalResults));</span>
+        }
+<span class="fc" id="L114">        return rows;</span>
+    }
+
+    private List&lt;String&gt; processCurrentsApiData(String data) throws IOException {
+<span class="fc" id="L118">        List&lt;String&gt; rows = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L119">        JsonNode root = objectMapper.readTree(data);</span>
+<span class="fc" id="L120">        String status = root.path(&quot;status&quot;).asText(&quot;&quot;);</span>
+<span class="fc" id="L121">        JsonNode newsArray = root.path(&quot;news&quot;);</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">        if (newsArray.isArray()) {</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">            for (JsonNode newsItem : newsArray) {</span>
+<span class="fc" id="L124">                String id = newsItem.path(&quot;id&quot;).asText(&quot;&quot;);</span>
+<span class="fc" id="L125">                String title = newsItem.path(&quot;title&quot;).asText(&quot;&quot;);</span>
+<span class="fc" id="L126">                String description = newsItem.path(&quot;description&quot;).asText(&quot;&quot;);</span>
+                // Обрезаем описание, чтобы убрать лишние строки (например, &quot;UPDATE&quot; и последующий текст)
+<span class="fc" id="L128">                String trimmedDescription = trimCurrentsDescription(description);</span>
+<span class="fc" id="L129">                rows.add(String.format(&quot;CurrentsApi,%s,%s,%s,%s&quot;,</span>
+                        status,
+<span class="fc" id="L131">                        escapeCsv(id),</span>
+<span class="fc" id="L132">                        escapeCsv(title),</span>
+<span class="fc" id="L133">                        escapeCsv(trimmedDescription)));</span>
+<span class="fc" id="L134">            }</span>
+        } else {
+<span class="nc" id="L136">            rows.add(String.format(&quot;CurrentsApi,%s,,,,&quot;, status));</span>
+        }
+<span class="fc" id="L138">        return rows;</span>
+    }
+
+    private List&lt;String&gt; processOpenWeatherMapData(String data) throws IOException {
+<span class="fc" id="L142">        List&lt;String&gt; rows = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L143">        JsonNode root = objectMapper.readTree(data);</span>
+<span class="fc" id="L144">        double lon = root.path(&quot;coord&quot;).path(&quot;lon&quot;).asDouble(Double.NaN);</span>
+<span class="fc" id="L145">        double lat = root.path(&quot;coord&quot;).path(&quot;lat&quot;).asDouble(Double.NaN);</span>
+<span class="fc" id="L146">        JsonNode weatherArray = root.path(&quot;weather&quot;);</span>
+<span class="fc" id="L147">        String weatherId = &quot;&quot;;</span>
+<span class="fc" id="L148">        String weatherMain = &quot;&quot;;</span>
+<span class="fc" id="L149">        String weatherDescription = &quot;&quot;;</span>
+<span class="pc bpc" id="L150" title="1 of 4 branches missed.">        if (weatherArray.isArray() &amp;&amp; weatherArray.size() &gt; 0) {</span>
+<span class="fc" id="L151">            JsonNode weather = weatherArray.get(0);</span>
+<span class="fc" id="L152">            weatherId = weather.path(&quot;id&quot;).asText(&quot;&quot;);</span>
+<span class="fc" id="L153">            weatherMain = weather.path(&quot;main&quot;).asText(&quot;&quot;);</span>
+<span class="fc" id="L154">            weatherDescription = weather.path(&quot;description&quot;).asText(&quot;&quot;);</span>
+        }
+<span class="fc" id="L156">        rows.add(String.format(&quot;OpenWeatherMap,%.4f,%.4f,%s,%s,%s&quot;,</span>
+<span class="fc" id="L157">                lon,</span>
+<span class="fc" id="L158">                lat,</span>
+                weatherId,
+<span class="fc" id="L160">                escapeCsv(weatherMain),</span>
+<span class="fc" id="L161">                escapeCsv(weatherDescription)));</span>
+<span class="fc" id="L162">        return rows;</span>
+    }
+
+    /**
+     * Вспомогательный метод для экранирования значений CSV.
+     */
+    private String escapeCsv(String input) {
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">        if (input == null) return &quot;&quot;;</span>
+<span class="fc" id="L170">        String result = input.replace(&quot;\&quot;&quot;, &quot;\&quot;\&quot;&quot;);</span>
+<span class="fc bfc" id="L171" title="All 6 branches covered.">        if (result.contains(&quot;,&quot;) || result.contains(&quot;\&quot;&quot;) || result.contains(&quot;\n&quot;)) {</span>
+<span class="fc" id="L172">            result = &quot;\&quot;&quot; + result + &quot;\&quot;&quot;;</span>
+        }
+<span class="fc" id="L174">        return result;</span>
+    }
+
+    private void addJsonRecord(String source, String rawJson) {
+        try {
+<span class="fc" id="L179">            JsonNode jsonNode = objectMapper.readTree(rawJson);</span>
+<span class="fc" id="L180">            records.add(new Scrapped(source, jsonNode));</span>
+<span class="nc" id="L181">        } catch (JsonProcessingException e) {</span>
+<span class="nc" id="L182">            logger.error(&quot;Не удалось распарсить JSON данные для источника = &quot; + source, e);</span>
+<span class="fc" id="L183">        }</span>
+<span class="fc" id="L184">    }</span>
+
+    private void writeJsonToFile() {
+        try {
+<span class="fc" id="L188">            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);</span>
+<span class="fc" id="L189">            objectMapper.writeValue(new File(fileName), records);</span>
+<span class="nc" id="L190">        } catch (IOException e) {</span>
+<span class="nc" id="L191">            logger.error(&quot;Ошибка записи JSON в файл&quot;, e);</span>
+<span class="fc" id="L192">        }</span>
+<span class="fc" id="L193">    }</span>
+
+    /**
+     * Метод closeFile() для CSV записывает накопленные данные для каждого API в заданном порядке,
+     * добавляя заголовки и пустую строку между таблицами.
+     */
+    public synchronized void closeFile() {
+<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (&quot;JSON&quot;.equalsIgnoreCase(fileFormat)) {</span>
+<span class="fc" id="L201">            writeJsonToFile();</span>
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">        } else if (&quot;CSV&quot;.equalsIgnoreCase(fileFormat)) {</span>
+<span class="fc" id="L203">            writeCsvFile();</span>
+        }
+<span class="fc" id="L205">    }</span>
+
+    private void writeCsvFile() {
+<span class="fc" id="L208">        try (FileWriter writer = new FileWriter(fileName, false)) {</span>
+            // Записываем таблицу для NewsApi, если данные есть
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">            if (!newsApiRows.isEmpty()) {</span>
+<span class="fc" id="L211">                writer.write(&quot;source,status,totalResults,articleTitle,articleAuthor,articleDescription\n&quot;);</span>
+<span class="fc bfc" id="L212" title="All 2 branches covered.">                for (String row : newsApiRows) {</span>
+<span class="fc" id="L213">                    writer.write(row + &quot;\n&quot;);</span>
+<span class="fc" id="L214">                }</span>
+<span class="fc" id="L215">                writer.write(&quot;\n&quot;);</span>
+            }
+            // Записываем таблицу для CurrentsApi, если данные есть
+<span class="fc bfc" id="L218" title="All 2 branches covered.">            if (!currentsApiRows.isEmpty()) {</span>
+<span class="fc" id="L219">                writer.write(&quot;source,status,newsId,newsTitle,newsDescription\n&quot;);</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">                for (String row : currentsApiRows) {</span>
+<span class="fc" id="L221">                    writer.write(row + &quot;\n&quot;);</span>
+<span class="fc" id="L222">                }</span>
+<span class="fc" id="L223">                writer.write(&quot;\n&quot;);</span>
+            }
+            // Записываем таблицу для OpenWeatherMap, если данные есть
+<span class="fc bfc" id="L226" title="All 2 branches covered.">            if (!openWeatherMapRows.isEmpty()) {</span>
+<span class="fc" id="L227">                writer.write(&quot;source,coordLon,coordLat,weatherId,weatherMain,weatherDescription\n&quot;);</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">                for (String row : openWeatherMapRows) {</span>
+<span class="fc" id="L229">                    writer.write(row + &quot;\n&quot;);</span>
+<span class="fc" id="L230">                }</span>
+<span class="fc" id="L231">                writer.write(&quot;\n&quot;);</span>
+            }
+<span class="nc" id="L233">        } catch (IOException e) {</span>
+<span class="nc" id="L234">            logger.error(&quot;Ошибка записи финального CSV файла&quot;, e);</span>
+<span class="fc" id="L235">        }</span>
+<span class="fc" id="L236">    }</span>
+
+    /**
+     * Метод для обрезки описания CurrentsAPI.
+     * Если описание содержит &quot;UPDATE&quot; или перевод строки, оставляет только первую часть.
+     */
+    private String trimCurrentsDescription(String description) {
+<span class="fc bfc" id="L243" title="All 2 branches covered.">        if (description == null) return &quot;&quot;;</span>
+        // Обрезаем по слову &quot;UPDATE&quot;, если оно встречается
+<span class="fc" id="L245">        int updateIndex = description.indexOf(&quot;UPDATE&quot;);</span>
+<span class="fc bfc" id="L246" title="All 2 branches covered.">        if (updateIndex != -1) {</span>
+<span class="fc" id="L247">            description = description.substring(0, updateIndex);</span>
+        }
+        // Обрезаем по первому переводу строки
+<span class="fc" id="L250">        int newlineIndex = description.indexOf(&quot;\n&quot;);</span>
+<span class="fc bfc" id="L251" title="All 2 branches covered.">        if (newlineIndex != -1) {</span>
+<span class="fc" id="L252">            description = description.substring(0, newlineIndex);</span>
+        }
+<span class="fc" id="L254">        return description.trim();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -1,0 +1,8 @@
+com/example/scrapper/parser/ApiParserTest.class
+com/example/scrapper/client/ApiClientTest.class
+com/example/scrapper/util/ScrappedTest.class
+com/example/scrapper/util/FileWriterUtilTest$1.class
+com/example/scrapper/util/LoggerConfiguratorTest.class
+com/example/scrapper/util/FileWriterUtilTest.class
+com/example/scrapper/util/ApiScrapperTaskTest.class
+com/example/scrapper/ApplicationStarterTest.class

@@ -1,0 +1,9 @@
+com/example/scrapper/parser/ApiParser.class
+com/example/scrapper/util/ApiScrapperTask.class
+com/example/scrapper/util/FileWriterUtil.class
+com/example/scrapper/util/LoggerConfigurator.class
+com/example/scrapper/client/ApiClient.class
+com/example/scrapper/util/Scrapped.class
+com/example/scrapper/Main.class
+com/example/scrapper/util/FileWriterUtil$1.class
+com/example/scrapper/ApplicationStarter.class

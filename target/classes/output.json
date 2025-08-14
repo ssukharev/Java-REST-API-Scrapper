@@ -1,0 +1,319 @@
+[ {
+  "source" : "openweathermap",
+  "data" : {
+    "coord" : {
+      "lon" : -0.1257,
+      "lat" : 51.5085
+    },
+    "weather" : [ {
+      "id" : 803,
+      "main" : "Clouds",
+      "description" : "broken clouds",
+      "icon" : "04d"
+    } ],
+    "base" : "stations",
+    "main" : {
+      "temp" : 287.61,
+      "feels_like" : 286.55,
+      "temp_min" : 286.49,
+      "temp_max" : 288.18,
+      "pressure" : 1005,
+      "humidity" : 55,
+      "sea_level" : 1005,
+      "grnd_level" : 1001
+    },
+    "visibility" : 10000,
+    "wind" : {
+      "speed" : 5.36,
+      "deg" : 224,
+      "gust" : 9.39
+    },
+    "clouds" : {
+      "all" : 75
+    },
+    "dt" : 1744631305,
+    "sys" : {
+      "type" : 2,
+      "id" : 2091269,
+      "country" : "GB",
+      "sunrise" : 1744607192,
+      "sunset" : 1744656872
+    },
+    "timezone" : 3600,
+    "id" : 2643743,
+    "name" : "London",
+    "cod" : 200
+  }
+}, {
+  "source" : "newsapi",
+  "data" : {
+    "status" : "ok",
+    "totalResults" : 56358,
+    "articles" : [ {
+      "source" : {
+        "id" : "wired",
+        "name" : "Wired"
+      },
+      "author" : "Will Knight",
+      "title" : "Under Trump, AI Scientists Are Told to Remove ‘Ideological Bias’ From Powerful Models",
+      "description" : "A directive from the National Institute of Standards and Technology eliminates mention of “AI safety” and “AI fairness.”",
+      "url" : "https://www.wired.com/story/ai-safety-institute-new-directive-america-first/",
+      "urlToImage" : "https://media.wired.com/photos/67c77508ad19f713de02a563/191:100/w_1280,c_limit/trump-pointing-2202608030.jpg",
+      "publishedAt" : "2025-03-14T23:29:46Z",
+      "content" : "The National Institute of Standards and Technology (NIST) has issued new instructions to scientists that partner with the US Artificial Intelligence Safety Institute (AISI) that eliminate mention of … [+3395 chars]"
+    } ]
+  }
+}, {
+  "source" : "currentsapi",
+  "data" : {
+    "status" : "429",
+    "msg" : "API quota exceeded. Upgrade plan or wait for reset."
+  }
+}, {
+  "source" : "newsapi",
+  "data" : {
+    "status" : "ok",
+    "totalResults" : 54021,
+    "articles" : [ {
+      "source" : {
+        "id" : "wired",
+        "name" : "Wired"
+      },
+      "author" : "Eric Berger, Ars Technica",
+      "title" : "A Secretive US Space Plane Will Soon Test Quantum Navigation Technology",
+      "description" : "The space plane’s test flight will advance development of a new navigation technology based on electromagnetic wave interference.",
+      "url" : "https://www.wired.com/story/a-secretive-space-plane-is-set-to-launch-and-test-quantum-navigation-technology/",
+      "urlToImage" : "https://media.wired.com/photos/6887de4a4f3d8879d5d906c9/191:100/w_1280,c_limit/secret-space-plane-x37-b-sci-587833280.jpg",
+      "publishedAt" : "2025-07-29T14:30:00Z",
+      "content" : "The X-37B, the US Space Forces secretive space plane, will soon take flight again.\r\nOn Monday, the Space Force announced that it will fly the small, Space Shuttleshaped vehicle on the programs eighth… [+3255 chars]"
+    } ]
+  }
+}, {
+  "source" : "openweathermap",
+  "data" : {
+    "coord" : {
+      "lon" : -0.1257,
+      "lat" : 51.5085
+    },
+    "weather" : [ {
+      "id" : 801,
+      "main" : "Clouds",
+      "description" : "few clouds",
+      "icon" : "02n"
+    } ],
+    "base" : "stations",
+    "main" : {
+      "temp" : 295.04,
+      "feels_like" : 295.06,
+      "temp_min" : 293.58,
+      "temp_max" : 295.98,
+      "pressure" : 1022,
+      "humidity" : 68,
+      "sea_level" : 1022,
+      "grnd_level" : 1017
+    },
+    "visibility" : 10000,
+    "wind" : {
+      "speed" : 2.06,
+      "deg" : 220
+    },
+    "clouds" : {
+      "all" : 20
+    },
+    "dt" : 1755207852,
+    "sys" : {
+      "type" : 2,
+      "id" : 2075535,
+      "country" : "GB",
+      "sunrise" : 1755146678,
+      "sunset" : 1755199557
+    },
+    "timezone" : 3600,
+    "id" : 2643743,
+    "name" : "London",
+    "cod" : 200
+  }
+}, {
+  "source" : "newsapi",
+  "data" : {
+    "status" : "ok",
+    "totalResults" : 54021,
+    "articles" : [ {
+      "source" : {
+        "id" : "wired",
+        "name" : "Wired"
+      },
+      "author" : "Eric Berger, Ars Technica",
+      "title" : "A Secretive US Space Plane Will Soon Test Quantum Navigation Technology",
+      "description" : "The space plane’s test flight will advance development of a new navigation technology based on electromagnetic wave interference.",
+      "url" : "https://www.wired.com/story/a-secretive-space-plane-is-set-to-launch-and-test-quantum-navigation-technology/",
+      "urlToImage" : "https://media.wired.com/photos/6887de4a4f3d8879d5d906c9/191:100/w_1280,c_limit/secret-space-plane-x37-b-sci-587833280.jpg",
+      "publishedAt" : "2025-07-29T14:30:00Z",
+      "content" : "The X-37B, the US Space Forces secretive space plane, will soon take flight again.\r\nOn Monday, the Space Force announced that it will fly the small, Space Shuttleshaped vehicle on the programs eighth… [+3255 chars]"
+    } ]
+  }
+}, {
+  "source" : "openweathermap",
+  "data" : {
+    "coord" : {
+      "lon" : -0.1257,
+      "lat" : 51.5085
+    },
+    "weather" : [ {
+      "id" : 801,
+      "main" : "Clouds",
+      "description" : "few clouds",
+      "icon" : "02n"
+    } ],
+    "base" : "stations",
+    "main" : {
+      "temp" : 295.04,
+      "feels_like" : 295.06,
+      "temp_min" : 293.58,
+      "temp_max" : 295.98,
+      "pressure" : 1022,
+      "humidity" : 68,
+      "sea_level" : 1022,
+      "grnd_level" : 1017
+    },
+    "visibility" : 10000,
+    "wind" : {
+      "speed" : 2.06,
+      "deg" : 220
+    },
+    "clouds" : {
+      "all" : 20
+    },
+    "dt" : 1755207852,
+    "sys" : {
+      "type" : 2,
+      "id" : 2075535,
+      "country" : "GB",
+      "sunrise" : 1755146678,
+      "sunset" : 1755199557
+    },
+    "timezone" : 3600,
+    "id" : 2643743,
+    "name" : "London",
+    "cod" : 200
+  }
+}, {
+  "source" : "newsapi",
+  "data" : {
+    "status" : "ok",
+    "totalResults" : 54021,
+    "articles" : [ {
+      "source" : {
+        "id" : "wired",
+        "name" : "Wired"
+      },
+      "author" : "Eric Berger, Ars Technica",
+      "title" : "A Secretive US Space Plane Will Soon Test Quantum Navigation Technology",
+      "description" : "The space plane’s test flight will advance development of a new navigation technology based on electromagnetic wave interference.",
+      "url" : "https://www.wired.com/story/a-secretive-space-plane-is-set-to-launch-and-test-quantum-navigation-technology/",
+      "urlToImage" : "https://media.wired.com/photos/6887de4a4f3d8879d5d906c9/191:100/w_1280,c_limit/secret-space-plane-x37-b-sci-587833280.jpg",
+      "publishedAt" : "2025-07-29T14:30:00Z",
+      "content" : "The X-37B, the US Space Forces secretive space plane, will soon take flight again.\r\nOn Monday, the Space Force announced that it will fly the small, Space Shuttleshaped vehicle on the programs eighth… [+3255 chars]"
+    } ]
+  }
+}, {
+  "source" : "openweathermap",
+  "data" : {
+    "coord" : {
+      "lon" : -0.1257,
+      "lat" : 51.5085
+    },
+    "weather" : [ {
+      "id" : 801,
+      "main" : "Clouds",
+      "description" : "few clouds",
+      "icon" : "02n"
+    } ],
+    "base" : "stations",
+    "main" : {
+      "temp" : 295.04,
+      "feels_like" : 295.06,
+      "temp_min" : 293.58,
+      "temp_max" : 295.98,
+      "pressure" : 1022,
+      "humidity" : 68,
+      "sea_level" : 1022,
+      "grnd_level" : 1017
+    },
+    "visibility" : 10000,
+    "wind" : {
+      "speed" : 2.06,
+      "deg" : 220
+    },
+    "clouds" : {
+      "all" : 20
+    },
+    "dt" : 1755207852,
+    "sys" : {
+      "type" : 2,
+      "id" : 2075535,
+      "country" : "GB",
+      "sunrise" : 1755146678,
+      "sunset" : 1755199557
+    },
+    "timezone" : 3600,
+    "id" : 2643743,
+    "name" : "London",
+    "cod" : 200
+  }
+}, {
+  "source" : "currentsapi",
+  "data" : {
+    "status" : "ok",
+    "news" : [ {
+      "id" : "869a34c7-af62-41ad-a26d-cd5eff135359",
+      "title" : "Gangs 'threaten man who bribed gov worker'",
+      "description" : "A man who allegedly bribed an Australian Border Force employee in a drug smuggling bid could be killed on bail, a court was told.",
+      "url" : "https://www.news.com.au/national/nsw-act/courts-law/fears-man-who-allegedly-bribed-australian-border-force-employee-to-smuggle-drugs-could-be-killed-on-bail-court/news-story/66b1ef8aab91e988d1da282841503146",
+      "author" : "news",
+      "image" : "None",
+      "language" : "en",
+      "category" : [ "regional" ],
+      "published" : "2025-08-14 21:46:07 +0000"
+    } ],
+    "page" : 1
+  }
+}, {
+  "source" : "newsapi",
+  "data" : {
+    "status" : "ok",
+    "totalResults" : 54040,
+    "articles" : [ {
+      "source" : {
+        "id" : "wired",
+        "name" : "Wired"
+      },
+      "author" : "Eric Berger, Ars Technica",
+      "title" : "A Secretive US Space Plane Will Soon Test Quantum Navigation Technology",
+      "description" : "The space plane’s test flight will advance development of a new navigation technology based on electromagnetic wave interference.",
+      "url" : "https://www.wired.com/story/a-secretive-space-plane-is-set-to-launch-and-test-quantum-navigation-technology/",
+      "urlToImage" : "https://media.wired.com/photos/6887de4a4f3d8879d5d906c9/191:100/w_1280,c_limit/secret-space-plane-x37-b-sci-587833280.jpg",
+      "publishedAt" : "2025-07-29T14:30:00Z",
+      "content" : "The X-37B, the US Space Forces secretive space plane, will soon take flight again.\r\nOn Monday, the Space Force announced that it will fly the small, Space Shuttleshaped vehicle on the programs eighth… [+3255 chars]"
+    } ]
+  }
+}, {
+  "source" : "newsapi",
+  "data" : {
+    "status" : "ok",
+    "totalResults" : 54040,
+    "articles" : [ {
+      "source" : {
+        "id" : "wired",
+        "name" : "Wired"
+      },
+      "author" : "Eric Berger, Ars Technica",
+      "title" : "A Secretive US Space Plane Will Soon Test Quantum Navigation Technology",
+      "description" : "The space plane’s test flight will advance development of a new navigation technology based on electromagnetic wave interference.",
+      "url" : "https://www.wired.com/story/a-secretive-space-plane-is-set-to-launch-and-test-quantum-navigation-technology/",
+      "urlToImage" : "https://media.wired.com/photos/6887de4a4f3d8879d5d906c9/191:100/w_1280,c_limit/secret-space-plane-x37-b-sci-587833280.jpg",
+      "publishedAt" : "2025-07-29T14:30:00Z",
+      "content" : "The X-37B, the US Space Forces secretive space plane, will soon take flight again.\r\nOn Monday, the Space Force announced that it will fly the small, Space Shuttleshaped vehicle on the programs eighth… [+3255 chars]"
+    } ]
+  }
+} ]
