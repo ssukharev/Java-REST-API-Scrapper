@@ -44,6 +44,12 @@ The next step was to develop an application that polls the API of data sources i
 
 etc.
 
+
+
+### Test result:
+<img width="593" height="231" alt="Снимок экрана 2025-08-15 в 03 37 25" src="https://github.com/user-attachments/assets/a6165a66-1422-4c59-85cb-600825b78830" />
+
+
 ## Contribute
 I welcome any contribution to the development of my repositories! Read our [Contribution Guide](CONTRIBUTING.md ) to get started.
 
