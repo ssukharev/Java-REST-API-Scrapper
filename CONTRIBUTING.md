@@ -40,6 +40,14 @@ or
       git rebase upstream/main
       git push origin BRANCH_NAME -f
       ```
+
+*Be sure to insert and use your API keys [here](src/main/resources/apiKeys.txt).* List of open API services used in this project:
+
+- [NewsAPI](https://newsapi.org)
+
+- [CurrentsAPI](https://currentsapi.services/en)
+
+- [OpenWeatherMapAPI](https://openweathermap.org)
    
 ### <a name="contributing-code"></a>Design recommendations
 - All commits **must** follow the [naming convention](https://www.conventionalcommits.org/en/v1.0.0/)
